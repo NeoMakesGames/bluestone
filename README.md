@@ -1,16 +1,23 @@
-# Bluestone - Hytale Redstone-like Mod
+# Bluestone - Hytale Redstone-like Plugin & Pack
 
-A Hytale plugin that adds Bluestone - a redstone-like wire and signal propagation system. Place wires and use switches to create circuits!
+A Hytale plugin and pack that adds **Bluestone** - a redstone-like wire and signal propagation system. Place wires and use switches to create circuits!
 
-> **✨ Server-authoritative mod!** Players can join without installing client-side mods.
+> **✨ Server-authoritative design!** All circuit logic runs server-side, so all players see the same state without client-side mods.
+
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Hytale](https://img.shields.io/badge/Hytale-Early%20Access-blue)
+![Java](https://img.shields.io/badge/Java-25-orange)
+
+---
 
 ## Features
 
 ✅ **Bluestone Wire** - Conducts signals like redstone dust  
 ✅ **Bluestone Switch** - Toggle power source (like a lever)  
-✅ **Signal Propagation** - Automatic power flow through connected wires  
-✅ **Server-Side Logic** - All players see the same circuit states  
+✅ **Signal Propagation** - Automatic power flow through connected wires using BFS  
+✅ **Server-Side Logic** - All players see synchronized circuit states  
 ✅ **Multiple Power Sources** - Supports multiple switches in one network  
+✅ **Official Pack Format** - Follows Hytale's "Adding a Block" guide exactly  
 
 ---
 
@@ -19,10 +26,10 @@ A Hytale plugin that adds Bluestone - a redstone-like wire and signal propagatio
 ### Prerequisites
 
 - **Java 25 JDK** - [Download here](https://www.oracle.com/java/technologies/downloads/)
-- **Hytale Early Access** - With mod support enabled
-- **IntelliJ IDEA** - [Download here](https://www.jetbrains.com/idea/download/) (Community Edition is fine)
+- **Hytale Early Access** - With pack/plugin support enabled
+- **Gradle** (included via wrapper)
 
-### 1. Clone or Download
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/bluestone.git
@@ -41,110 +48,154 @@ gradlew.bat shadowJar
 
 Your plugin JAR will be in: `build/libs/Bluestone-1.0.0.jar`
 
-### 3. Test with Local Server
+### 3. Create Textures ⚠️ Required
 
-When ready to customize, edit these files:
+Before the pack works visually, you need to create **6 texture files**:
 
-**`settings.gradle.kts`:**
-```kotlin
-rootProject.name = "your-plugin-name"
-```
+- 4 block textures (16x16 or 32x32 PNG)
+- 2 inventory icons (64x64 or 128x128 PNG)
 
-**`gradle.properties`:**
-```properties
-pluginGroup=com.yourname
-pluginVersion=1.0.0
-pluginDescription=Your plugin description
-```
+See detailed specifications:
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete setup instructions
+- `src/main/resources/Bluestone/Common/BlockTextures/Blocks/*.txt` - Texture specs
+- `src/main/resources/Bluestone/Common/Icons/ItemsGenerated/*.txt` - Icon specs
 
-**`src/main/resources/manifest.json`:**
-```json
-{
-  "Group": "YourName",
-  "Name": "YourPluginName",
-  "Main": "com.yourname.yourplugin.YourPlugin"
-}
-```
+### 4. Install the Pack
 
-**Rename the main plugin class:**
-- Rename `src/main/java/com/example/templateplugin/TemplatePlugin.java`
-- Update package name to match your `pluginGroup`
-
-### 4. Build Your Plugin
+Copy the pack folder to Hytale's UserData:
 
 ```bash
-# Windows
-gradlew.bat shadowJar
+# Windows (PowerShell)
+xcopy /E /I src\main\resources\Bluestone "%AppData%\Hytale\UserData\Packs\Bluestone"
 
 # Linux/Mac
-./gradlew shadowJar
+cp -r src/main/resources/Bluestone ~/Library/Application Support/Hytale/UserData/Packs/
 ```
 
-Your plugin JAR will be in: `build/libs/YourPluginName-1.0.0.jar`
+### 5. Install the Plugin
 
-### 5. Implement Your Plugin
+Copy `build/libs/Bluestone-1.0.0.jar` to your Hytale server's `plugins/` folder.
 
-Write your plugin code in `src/main/java/`:
-- Commands
-- Event listeners
-- Services
-- Storage
-- Utilities
+### 6. Enable in Hytale
 
-See our [documentation](../Documentation/) for examples and patterns.
+1. Launch Hytale
+2. Go to **Worlds** tab
+3. Right-click your world → **Enable "Bluestone" pack**
+4. Join the world
 
-### 6. Test Your Plugin (Automated!)
+### 7. Test the Blocks
 
-```bash
-# Windows
-gradlew.bat runServer
+1. Open **Creative Mode** inventory
+2. Find blocks in **"Blocks.Decoration"** category
+3. Place **Bluestone Wires** and **Switches**
+4. **Right-click switches** to toggle them ON/OFF
+5. Watch connected wires **light up** when powered! ⚡
 
-# Linux/Mac
-./gradlew runServer
+**📖 For detailed setup, see [SETUP_GUIDE.md](SETUP_GUIDE.md)**
+
+---
+
+## How It Works
+
+### The Plugin (Server-Side Logic)
+
+Located in `src/main/java/com/bluestone/BluestonePlugin.java`:
+
+- **Event Listening**: Detects switch toggles via `BlockStateChangeEvent`
+- **BFS Propagation**: Uses breadth-first search to find all connected wires
+- **State Management**: Updates wire block states from "off" → "on"
+- **Power Source Tracking**: Maintains a set of active switches for efficient recalculation
+- **Network Recalculation**: Recalculates entire circuit when blocks are placed/broken
+- **Server Authority**: All logic runs server-side, keeping all players synchronized
+
+**Key Methods:**
+- `onBlockStateChange()` - Handles switch toggles
+- `recalculateAllBluestone()` - Recalculates entire network
+- `propagateSignalFromSource()` - BFS power propagation
+- `setWireState()` - Updates wire block states
+
+### The Pack (Client & Server Assets)
+
+Located in `src/main/resources/Bluestone/`:
+
+**Pack Structure** (follows official Hytale format):
+```
+Bluestone/
+├── manifest.json              # Pack metadata
+├── Common/                    # Client-side assets
+│   ├── BlockTextures/Blocks/  # Block textures (need PNGs)
+│   ├── Icons/ItemsGenerated/  # Inventory icons (need PNGs)
+│   └── Models/Blocks/         # 3D models (.blockymodel)
+└── Server/                    # Server-side definitions
+    ├── Item/Items/            # Block JSON definitions
+    │   ├── bluestone_wire.json
+    │   └── bluestone_switch.json
+    └── Languages/en-US/       # Translations
+        └── server.lang
 ```
 
-This will:
-1. Download the Hytale server (cached for future runs)
-2. Build your plugin
-3. Copy it to the server's plugins folder
-4. Start the server with interactive console
+**Block Definitions:**
+
+**Bluestone Wire** (`bluestone_wire.json`):
+- Material: Solid
+- DrawType: Cross (renders as + pattern like flowers)
+- States: "off" (dark blue) | "on" (bright blue)
+- Gathering: Breaks by hand, drops itself
+- MaxStack: 64
+
+**Bluestone Switch** (`bluestone_switch.json`):
+- Material: Solid
+- DrawType: Cube (standard block)
+- States: "off" | "on"
+- Interaction: ChangeState on Use (right-click to toggle)
+- Gathering: Breaks by hand, drops itself
+- MaxStack: 64
+
+Both blocks are in the **"Blocks.Decoration"** category.
 
 ---
 
 ## Project Structure
 
 ```
-TemplatePlugin/
-├── .github/workflows/
-│   └── build.yml                    # CI/CD workflow
-├── buildSrc/
-│   ├── build.gradle.kts             # Custom plugin configuration
-│   └── src/main/kotlin/
-│       └── RunHytalePlugin.kt       # Automated server testing
+bluestone/
 ├── src/main/
-│   ├── java/com/example/templateplugin/
-│   │   └── TemplatePlugin.java      # Minimal main class (example)
+│   ├── java/com/bluestone/
+│   │   ├── BluestonePlugin.java         # Main plugin logic
+│   │   └── command/
+│   │       └── GiveCommand.java         # Example command
 │   └── resources/
-│       └── manifest.json            # Plugin metadata
-├── .gitignore                       # Git ignore rules
-├── build.gradle.kts                 # Build configuration
-├── gradle.properties                # Project properties
-├── settings.gradle.kts              # Project settings
-├── LICENSE                          # MIT License
-└── README.md                        # This file
+│       ├── manifest.json                # Plugin manifest
+│       ├── config.json                  # Plugin config
+│       └── Bluestone/                   # Pack folder
+│           ├── manifest.json            # Pack manifest
+│           ├── README.md                # Pack documentation
+│           ├── Common/                  # Client assets
+│           │   ├── BlockTextures/Blocks/
+│           │   │   ├── *.png.txt        # Texture specifications
+│           │   │   └── *.blockymodel    # 3D models
+│           │   ├── Icons/ItemsGenerated/
+│           │   │   └── *.png.txt        # Icon specifications
+│           │   └── Models/Blocks/
+│           │       └── *.blockymodel    # Block models
+│           └── Server/                  # Server definitions
+│               ├── Item/Items/
+│               │   ├── bluestone_wire.json      # Wire definition
+│               │   └── bluestone_switch.json    # Switch definition
+│               └── Languages/en-US/
+│                   └── server.lang      # English translations
+├── build.gradle.kts                     # Build configuration
+├── gradle.properties                    # Project properties
+├── settings.gradle.kts                  # Gradle settings
+├── SETUP_GUIDE.md                       # Detailed setup guide
+├── IMPLEMENTATION_SUMMARY.md            # Technical details
+├── README.md                            # This file
+└── LICENSE                              # MIT License
 ```
-
-**Note:** This is a minimal template. Create your own folder structure:
-- `commands/` - For command implementations
-- `listeners/` - For event listeners
-- `services/` - For business logic
-- `storage/` - For data persistence
-- `utils/` - For utility classes
-- `config/` - For configuration management
 
 ---
 
-## Development Workflow
+## Development
 
 ### Building
 
@@ -162,204 +213,167 @@ TemplatePlugin/
 ### Testing
 
 ```bash
-# Run server with your plugin
+# Run server with your plugin (if configured)
 ./gradlew runServer
 
-# Run unit tests
-./gradlew test
-
-# Clean test server
-rm -rf run/
+# Clean build directory
+./gradlew clean
 ```
 
-### Debugging
+### Adding Features
 
-```bash
-# Run server in debug mode
-./gradlew runServer -Pdebug
+**Extend the plugin:**
+1. Add new event handlers in `BluestonePlugin.java`
+2. Create new block types in pack JSON files
+3. Add textures and models
+4. Update translations
 
-# Then connect your IDE debugger to localhost:5005
-```
+**Example: Add a Bluestone Torch**
+1. Create `bluestone_torch.json` in `Server/Item/Items/`
+2. Add textures to `Common/BlockTextures/Blocks/`
+3. Add translation to `server.lang`
+4. Update plugin to handle torch as a power source
 
 ---
 
-## Customization
+## Pack Compliance
 
-### Adding Dependencies
+This pack follows the official **"Adding a Block"** Hytale guide:
 
-Edit `build.gradle.kts`:
+✅ Correct folder structure (`Common/`, `Server/`)  
+✅ Proper `manifest.json` format  
+✅ Block definitions in `Server/Item/Items/`  
+✅ Translation files in `Server/Languages/en-US/`  
+✅ Textures in `Common/BlockTextures/`  
+✅ Icons in `Common/Icons/ItemsGenerated/`  
+✅ Models in `Common/Models/Blocks/`  
+✅ All required properties (TranslationProperties, BlockType, etc.)  
+✅ State management (off/on states with textures)  
+✅ Interactions (ChangeState for switch)  
+✅ Categories (Blocks.Decoration)  
 
-```kotlin
-dependencies {
-    // Hytale API (provided by server)
-    compileOnly(files("libs/hytale-server.jar"))
-    
-    // Your dependencies (will be bundled)
-    implementation("com.google.code.gson:gson:2.10.1")
-    
-    // Test dependencies
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-}
-```
+**Technical Validation:**
+- ✅ JSON syntax validated
+- ✅ Paths follow official conventions
+- ✅ Plugin code compatible with JSON structure
+- ⚠️ Texture assets pending creation
 
-### Configuring Server Testing
-
-**Run Hytale Server** - A Gradle plugin to download and run a Hytale server for development and testing purposes. The server files will be located in the `run/` directory of the project. Before starting the server it will compile (shadowJar task) and copy the plugin jar to the server's `plugins/` folder.
-
-**Usage:**
-
-Edit `build.gradle.kts`:
-
-```kotlin
-runHytale {
-    jarUrl = "url to hytale server jar"
-}
-```
-
-Run the server with:
-
-```bash
-# Windows
-gradlew.bat runServer
-
-# Linux/Mac
-./gradlew runServer
-```
-
-**Features:**
-- ✅ Automatic server JAR download and caching
-- ✅ Compiles and deploys your plugin automatically
-- ✅ Starts server with interactive console
-- ✅ One-command workflow: `./gradlew runServer`
-- ✅ Server files in `run/` directory (gitignored)
-
-### Implementing Your Plugin
-
-**Recommended folder structure:**
-```
-src/main/java/com/yourname/yourplugin/
-├── YourPlugin.java          # Main class
-├── commands/                # Commands
-├── listeners/               # Event listeners
-├── services/                # Business logic
-├── storage/                 # Data persistence
-├── config/                  # Configuration
-└── utils/                   # Utilities
-```
-
-**See our documentation for examples:**
-- [Getting Started with Plugins](../Documentation/07-getting-started-with-plugins.md)
-- [Advanced Plugin Patterns](../Documentation/12-advanced-plugin-patterns.md)
-- [Common Plugin Features](../Documentation/14-common-plugin-features.md)
-
----
-
-## CI/CD
-
-This template includes a GitHub Actions workflow that:
-
-1. ✅ Builds your plugin on every push
-2. ✅ Runs tests
-3. ✅ Uploads artifacts
-4. ✅ Creates releases (when you tag)
-
-### Creating a Release
-
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-GitHub Actions will automatically build and create a release with your plugin JAR.
-
----
-
-## Best Practices
-
-### ✅ DO:
-
-- Use the Service-Storage pattern for data management
-- Write unit tests for your business logic
-- Use structured logging (not `System.out.println`)
-- Handle errors gracefully
-- Document your public API
-- Version your releases semantically (1.0.0, 1.1.0, etc.)
-
-### ❌ DON'T:
-
-- Hardcode configuration values
-- Block the main thread with heavy operations
-- Ignore exceptions
-- Use deprecated APIs
-- Commit sensitive data (API keys, passwords)
-
----
-
-## Troubleshooting
-
-### Build Fails
-
-```bash
-# Clean and rebuild
-./gradlew clean build --refresh-dependencies
-```
-
-### Server Won't Start
-
-1. Check that `jarUrl` in `build.gradle.kts` is correct
-2. Verify Java 25 is installed: `java -version`
-3. Check logs in `run/logs/`
-
-### Plugin Not Loading
-
-1. Verify `manifest.json` has correct `Main` class
-2. Check server logs for errors
-3. Ensure all dependencies are bundled in JAR
+See [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) for complete compliance details.
 
 ---
 
 ## Documentation
 
-For detailed guides on plugin development, see:
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete setup and testing instructions
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Technical implementation details
+- **[src/main/resources/Bluestone/README.md](src/main/resources/Bluestone/README.md)** - Pack structure overview
 
-- [Hytale Modding Documentation](https://github.com/yourusername/hytale-modding/tree/main/Documentation)
-- [Getting Started with Plugins](../Documentation/07-getting-started-with-plugins.md)
-- [Advanced Plugin Patterns](../Documentation/12-advanced-plugin-patterns.md)
-- [Common Plugin Features](../Documentation/14-common-plugin-features.md)
+---
+
+## Roadmap
+
+### Current Status (v1.0.0)
+- ✅ Plugin architecture complete
+- ✅ Block definitions following official format
+- ✅ BFS signal propagation
+- ✅ State management
+- ✅ Pack structure compliant
+- ⚠️ Texture assets pending
+
+### Future Features
+- [ ] Bluestone Torch (always-on power source)
+- [ ] Bluestone Repeater (signal delay)
+- [ ] Bluestone Lamp (output device)
+- [ ] Pressure Plates (player detection)
+- [ ] Doors/Pistons integration
+- [ ] Advanced circuitry components
+
+---
+
+## Troubleshooting
+
+### Blocks don't appear in game
+- ✅ Verify pack is enabled in world settings
+- ✅ Check that texture PNG files exist (not just .txt placeholders)
+- ✅ Validate JSON syntax (use `ConvertFrom-Json` in PowerShell)
+- ✅ Check Hytale logs for pack loading errors
+
+### Switch doesn't toggle
+- ✅ Ensure `Interactions` section exists in `bluestone_switch.json`
+- ✅ Verify plugin JAR is in server's `plugins/` folder
+- ✅ Check server console for plugin loading errors
+- ✅ Test with `/plugins` command to verify plugin is enabled
+
+### Wires don't power up
+- ✅ Ensure plugin is loaded (check server logs)
+- ✅ Verify block IDs match: `bluestone:bluestone_wire` and `bluestone:bluestone_switch`
+- ✅ Test with simple circuit: 1 switch + 1 wire adjacent
+- ✅ Check plugin logs for propagation messages
+
+### Textures are missing/black
+- ✅ Create the 6 required PNG files (see SETUP_GUIDE.md)
+- ✅ Verify file names match JSON exactly (case-sensitive)
+- ✅ Check paths are correct relative to pack folder
+- ✅ Ensure PNG files are in correct folders (not in root)
 
 ---
 
 ## Contributing
 
-Contributions are welcome! Please:
+Contributions are welcome! Areas for improvement:
 
+- Creating texture assets (PNG files)
+- Adding new block types
+- Optimizing BFS algorithm
+- Adding configuration options
+- Writing unit tests
+- Improving documentation
+
+**To contribute:**
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
 ## License
 
-This template is released under the MIT License. You are free to use it for any purpose.
+This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file for details.
 
----
-
-## Support
-
-- **Issues:** [GitHub Issues](https://github.com/yourusername/hytale-plugin-template/issues)
-- **Documentation:** [Hytale Modding Docs](https://github.com/yourusername/hytale-modding)
-- **Community:** Join the Hytale modding community
+You are free to:
+- ✅ Use commercially
+- ✅ Modify and distribute
+- ✅ Use privately
+- ✅ Sublicense
 
 ---
 
 ## Credits
 
-Created by the Hytale modding community.
+**Authors:**
+- **GianSmile** - [YouTube](https://www.youtube.com/@GianSmile)
+- **NeoPlayzGames** - [YouTube](https://www.youtube.com/@NPG123)
 
-Based on best practices from production Hytale plugins.
+**Inspired by:**
+- Minecraft's Redstone system
+- Hytale's official block creation guide
+
+**Built with:**
+- Java 25
+- Gradle 8.11.1
+- Hytale Server API
 
 ---
 
-**Happy Modding! 🎮**
+## Support
+
+- **Issues:** [GitHub Issues](https://github.com/yourusername/bluestone/issues)
+- **Documentation:** See `SETUP_GUIDE.md` and `IMPLEMENTATION_SUMMARY.md`
+- **Community:** Join the Hytale modding community
+
+---
+
+**Happy Circuit Building! ⚡🔵**
+

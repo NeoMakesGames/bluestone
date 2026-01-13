@@ -1,56 +1,24 @@
 {
+  "Id": "bluestone:bluestone_wire",
+  "Type": "Block",
   "TranslationProperties": {
     "Name": "server.Bluestone_Wire.name"
   },
   "MaxStack": 64,
-  "Icon": "Icons/ItemsGenerated/bluestone_wire.png",
-  "Categories": [
-    "Blocks.Decoration"
-  ],
-  "PlayerAnimationsId": "Block",
-  "Set": "Bluestone_Wire",
-  "BlockType": {
-    "Material": "Solid",
-    "DrawType": "Cross",
-    "Group": "Decoration",
-    "Flags": {},
-    "Gathering": {
-      "Breaking": {
-        "GatherType": "Hands",
-        "ItemId": "bluestone:bluestone_wire"
-      }
+  "Icon": "Bluestone/Common/Icons/ItemsGenerated/bluestone_wire.png",
+  "Categories": ["Creative.Blocks"],
+  "Material": "Gas",
+  "DrawType": "Cross",
+  "DefaultState": "off",
+  "States": {
+    "off": {
+      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_wire_off.blockymodel",
+      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_wire_off.png"]
     },
-    "BlockParticleSetId": "Stone",
-    "Textures": [
-      {
-        "All": "BlockTextures/Blocks/bluestone_wire_off.png"
-      }
-    ],
-    "ParticleColor": "#2b4f9e",
-    "BlockSoundSetId": "Stone",
-    "BlockBreakingDecalId": "Breaking_Decals_Rock",
-    "States": {
-      "off": {
-        "Textures": [
-          {
-            "All": "BlockTextures/Blocks/bluestone_wire_off.png"
-          }
-        ]
-      },
-      "on": {
-        "Textures": [
-          {
-            "All": "BlockTextures/Blocks/bluestone_wire_on.png"
-          }
-        ]
-      }
-    },
-    "DefaultState": "off"
-  },
-  "ResourceTypes": [
-    {
-      "Id": "Bluestone"
+    "on": {
+      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_wire_on.blockymodel",
+      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_wire_on.png"]
     }
-  ]
+  }
 }
 

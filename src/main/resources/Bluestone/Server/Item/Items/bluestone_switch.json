@@ -1,66 +1,34 @@
 {
+  "Id": "bluestone:bluestone_switch",
+  "Type": "Block",
   "TranslationProperties": {
     "Name": "server.Bluestone_Switch.name"
   },
   "MaxStack": 64,
-  "Icon": "Icons/ItemsGenerated/bluestone_switch.png",
-  "Categories": [
-    "Blocks.Decoration"
-  ],
-  "PlayerAnimationsId": "Block",
-  "Set": "Bluestone_Switch",
-  "BlockType": {
-    "Material": "Solid",
-    "DrawType": "Cube",
-    "Group": "Decoration",
-    "Flags": {},
-    "Gathering": {
-      "Breaking": {
-        "GatherType": "Hands",
-        "ItemId": "bluestone:bluestone_switch"
-      }
+  "Icon": "Bluestone/Common/Icons/ItemsGenerated/bluestone_switch.png",
+  "Categories": ["Creative.Blocks"],
+  "Material": "Solid",
+  "DrawType": "Model",
+  "DefaultState": "off",
+  "States": {
+    "off": {
+      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_switch_off.blockymodel",
+      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_switch_off.png"]
     },
-    "BlockParticleSetId": "Stone",
-    "Textures": [
-      {
-        "All": "BlockTextures/Blocks/bluestone_switch_off.png"
-      }
-    ],
-    "ParticleColor": "#5a5a5a",
-    "BlockSoundSetId": "Stone",
-    "BlockBreakingDecalId": "Breaking_Decals_Rock",
-    "States": {
-      "off": {
-        "Textures": [
-          {
-            "All": "BlockTextures/Blocks/bluestone_switch_off.png"
-          }
-        ]
-      },
-      "on": {
-        "Textures": [
-          {
-            "All": "BlockTextures/Blocks/bluestone_switch_on.png"
-          }
-        ]
-      }
-    },
-    "DefaultState": "off",
-    "Interactions": [
-      {
-        "Use": {
-          "Type": "ChangeState",
-          "Changes": {
-            "off": "on",
-            "on": "off"
-          }
+    "on": {
+      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_switch_on.blockymodel",
+      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_switch_on.png"]
+    }
+  },
+  "Interactions": [
+    {
+      "Use": {
+        "Type": "ChangeState",
+        "Changes": {
+          "off": "on",
+          "on": "off"
         }
       }
-    ]
-  },
-  "ResourceTypes": [
-    {
-      "Id": "Bluestone"
     }
   ]
 }

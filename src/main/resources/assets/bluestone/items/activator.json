@@ -1,0 +1,16 @@
+{
+  "TranslationProperties": {
+    "Name": "items.activator.name",
+    "Description": "items.activator.description"
+  },
+  "Icon": "assets/bluestone/textures/activator_icon.png",
+  "BlockType": {
+    "Material": "Solid",
+    "BlockSoundSetId": "Wood",
+    "State": {
+      "Id": "YourName_Bluestone_Activator",
+      "Active": false
+    },
+    "CustomModel": "assets/bluestone/models/activator.blockymodel"
+  }
+}

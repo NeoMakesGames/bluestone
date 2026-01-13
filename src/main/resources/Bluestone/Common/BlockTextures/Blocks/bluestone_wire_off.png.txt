@@ -1,0 +1,11 @@
+PLACEHOLDER: Create bluestone_wire_off.png here
+This texture will be used for Bluestone Wire in its OFF (unpowered) state.
+
+- Should look unpowered/inactive
+- Color suggestion: #2b4f9e (dark blue)
+- Design: A cross-pattern (+) wire in dark/dull blue color
+- Size: 16x16 or 32x32 pixels
+- Format: PNG with transparency
+Requirements:
+
+

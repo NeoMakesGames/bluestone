@@ -3,8 +3,8 @@
 Place the following icon files in this directory:
 
 ## Required Icons
-- `Bluestone_Wire.png` - Icon for Bluestone Wire in inventory/creative menu
-- `Bluestone_Switch.png` - Icon for Bluestone Switch in inventory/creative menu
+- `bluestone_wire.png` - Icon for Bluestone Wire in inventory/creative menu
+- `bluestone_switch.png` - Icon for Bluestone Switch in inventory/creative menu
 
 ## Icon Specifications
 - Format: PNG

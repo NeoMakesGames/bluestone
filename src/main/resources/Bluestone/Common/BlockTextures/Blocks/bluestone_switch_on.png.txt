@@ -1,0 +1,11 @@
+PLACEHOLDER: Create bluestone_switch_on.png here
+
+Requirements:
+- Format: PNG
+- Size: 16x16 or 32x32 pixels
+- Design: A lever or switch mechanism in the ON position
+- Color suggestion: Gray/stone with blue accents to show it's active
+- Should clearly show the switch is in the UP or ON position
+
+This texture will be used for Bluestone Switch in its ON state.
+

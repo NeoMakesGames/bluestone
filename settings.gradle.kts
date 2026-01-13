@@ -1,1 +1,2 @@
-rootProject.name = "TemplatePlugin"
+rootProject.name = "Bluestone"
+

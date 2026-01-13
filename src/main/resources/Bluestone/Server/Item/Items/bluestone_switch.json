@@ -1,0 +1,35 @@
+{
+  "Id": "bluestone:bluestone_switch",
+  "Type": "Block",
+  "TranslationProperties": {
+    "Name": "server.Bluestone_Switch.name"
+  },
+  "MaxStack": 64,
+  "Icon": "Bluestone/Common/Icons/ItemsGenerated/bluestone_switch.png",
+  "Categories": ["Creative.Blocks"],
+  "Material": "Solid",
+  "DrawType": "Model",
+  "DefaultState": "off",
+  "States": {
+    "off": {
+      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_switch_off.blockymodel",
+      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_switch_off.png"]
+    },
+    "on": {
+      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_switch_on.blockymodel",
+      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_switch_on.png"]
+    }
+  },
+  "Interactions": [
+    {
+      "Use": {
+        "Type": "ChangeState",
+        "Changes": {
+          "off": "on",
+          "on": "off"
+        }
+      }
+    }
+  ]
+}
+

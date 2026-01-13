@@ -1,17 +1,16 @@
-# Hytale Plugin Template
+# Bluestone - Hytale Redstone-like Mod
 
-A minimal, ready-to-use template for creating Hytale plugins with modern build tools and automated testing.
+A Hytale plugin that adds Bluestone - a redstone-like wire and signal propagation system. Place wires and use switches to create circuits!
 
-> **✨ Builds immediately without any changes!** Clone and run `./gradlew shadowJar` to get a working plugin JAR.
+> **✨ Server-authoritative mod!** Players can join without installing client-side mods.
 
 ## Features
 
-✅ **Modern Build System** - Gradle with Kotlin DSL  
-✅ **Automated Testing** - Custom Gradle plugin for one-command server testing  
-✅ **Java 25** - Latest Java features  
-✅ **ShadowJar** - Automatic dependency bundling  
-✅ **CI/CD Ready** - GitHub Actions workflow included  
-✅ **Minimal Structure** - Only essential files, write your own code  
+✅ **Bluestone Wire** - Conducts signals like redstone dust  
+✅ **Bluestone Switch** - Toggle power source (like a lever)  
+✅ **Signal Propagation** - Automatic power flow through connected wires  
+✅ **Server-Side Logic** - All players see the same circuit states  
+✅ **Multiple Power Sources** - Supports multiple switches in one network  
 
 ---
 
@@ -20,22 +19,17 @@ A minimal, ready-to-use template for creating Hytale plugins with modern build t
 ### Prerequisites
 
 - **Java 25 JDK** - [Download here](https://www.oracle.com/java/technologies/downloads/)
+- **Hytale Early Access** - With mod support enabled
 - **IntelliJ IDEA** - [Download here](https://www.jetbrains.com/idea/download/) (Community Edition is fine)
-- **Git** - [Download here](https://git-scm.com/)
 
 ### 1. Clone or Download
 
 ```bash
-git clone https://github.com/yourusername/hytale-plugin-template.git
-cd hytale-plugin-template
+git clone https://github.com/yourusername/bluestone.git
+cd bluestone
 ```
 
-**The template builds immediately without any changes!**  
-You can customize it later when you're ready to develop your plugin.
-
-### 2. Build Immediately (No Changes Needed!)
-
-The template works out-of-the-box:
+### 2. Build the Plugin
 
 ```bash
 # Windows
@@ -45,9 +39,9 @@ gradlew.bat shadowJar
 ./gradlew shadowJar
 ```
 
-Your plugin JAR will be in: `build/libs/TemplatePlugin-1.0.0.jar`
+Your plugin JAR will be in: `build/libs/Bluestone-1.0.0.jar`
 
-### 3. Customize Your Plugin (Optional)
+### 3. Test with Local Server
 
 When ready to customize, edit these files:
 

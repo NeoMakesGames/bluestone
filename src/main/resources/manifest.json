@@ -1,0 +1,22 @@
+{
+  "Group": "Bluestone",
+  "Name": "BluestoneDebug",
+  "Version": "1.0.0",
+  "Description": "Adds Bluestone - a redstone-like wire and signal propagation system. Place wires and use switches to create circuits!",
+  "Main": "com.bluestone.BluestonePlugin",
+  "Authors": [
+    {
+      "Name": "GianSmile",
+      "Youtube": "https://www.youtube.com/@GianSmile"
+    },
+    {
+      "Name": "NeoPlayzGames",
+      "Youtube": "https://www.youtube.com/@NPG123"
+    }
+  ],
+  "ServerVersion": "*",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false
+}
+

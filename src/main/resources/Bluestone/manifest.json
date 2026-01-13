@@ -1,6 +1,6 @@
 {
   "Group": "Bluestone",
-  "Name": "Bluestone",
+  "Name": "BluestoneDebug",
   "Version": "1.0.0",
   "Description": "Adds Bluestone - a redstone-like wire and signal propagation system. Place wires and use switches to create circuits!",
   "Authors": [

@@ -1,24 +1,33 @@
 {
   "Id": "bluestone:bluestone_wire",
   "Type": "Block",
+
   "TranslationProperties": {
     "Name": "server.Bluestone_Wire.name"
   },
+
   "MaxStack": 64,
-  "Icon": "Bluestone/Common/Icons/ItemsGenerated/bluestone_wire.png",
-  "Categories": ["Creative.Blocks"],
+  "Categories": ["Blocks.Rocks"],
+
   "Material": "Gas",
   "DrawType": "Cross",
+
+  "Icon": "Icons/ItemsGenerated/bluestone_wire.png",
+
   "DefaultState": "off",
+
   "States": {
     "off": {
-      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_wire_off.blockymodel",
-      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_wire_off.png"]
+      "CustomModel": "Models/Blocks/bluestone_wire.blockymodel",
+      "CustomModelTexture": [
+        "BlockTextures/Blocks/bluestone_wire_off.png"
+      ]
     },
     "on": {
-      "CustomModel": "Bluestone/Common/Models/Blocks/bluestone_wire_on.blockymodel",
-      "CustomModelTexture": ["Bluestone/Common/BlockTextures/Blocks/bluestone_wire_on.png"]
+      "CustomModel": "Models/Blocks/bluestone_wire.blockymodel",
+      "CustomModelTexture": [
+        "BlockTextures/Blocks/bluestone_wire_on.png"
+      ]
     }
   }
 }
-

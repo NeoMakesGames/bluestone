@@ -1,0 +1,16 @@
+{
+  "TranslationProperties": {
+    "Name": "items.bluestone_wire.name",
+    "Description": "items.bluestone_wire.description"
+  },
+  "Icon": "assets/bluestone/textures/wire_icon.png",
+  "BlockType": {
+    "Material": "Solid",
+    "BlockSoundSetId": "Stone",
+    "State": {
+      "Id": "YourName_Bluestone_Wire", 
+      "Power": 0
+    },
+    "CustomModel": "assets/bluestone/models/wire.blockymodel" 
+  }
+}
